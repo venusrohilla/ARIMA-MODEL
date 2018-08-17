@@ -14,9 +14,9 @@ dtr
 Call:
     stl(x = tr, s.window = "periodic")
 
-Components
+> Components
 seasonal    trend   remainder
-Jan 2003 -67.280792 172.4155  35.8652537
+Jan 2003 : -67.280792 172.4155  35.8652537
 Feb 2003 -63.421182 172.3386  48.0826023
 Mar 2003  -1.978228 172.2616  14.7166081
 Apr 2003  28.400185 173.0856  -2.4858315
