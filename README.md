@@ -20,6 +20,6 @@ Some important questions to first consider when first looking at a time series a
 * Is there constant varianceover time, or is the variance non-constant?
 * Are there any abrupt changes to either the level of the series or the variance?
 
-#### EXAMLPLE
+#### EXAMPLE
 For studying Time series and Forecasting I have used Tractor-Sales dataset.
 The dataset consists of sales records of tractors from January 2003 to December 2014.
