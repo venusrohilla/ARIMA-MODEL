@@ -146,7 +146,11 @@ The auto.arima() function in R uses a variation of the Hyndman-Khandakar algorit
 auto_tract<-auto.arima(log10(tr),stepwise = FALSE,approximation = FALSE)
 summary(auto_tract)
 ```
-![summary of auto arima]
+![summaryauto arima](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/auto%20arima%20summary.PNG)
+#### Observations:
+The best fit model is selected based on Akaike Information Criterion (AIC) , and Bayesian Information Criterion (BIC) values. The idea is to choose a model with minimum AIC and BIC values.
+As expected, our model has I (or integrated) component equal to 1. This represents differencing of order 1.
+There is additional differencing of lag 12 in the above best fit model. Moreover, the best fit model has MA value of order 1. Also, there is seasonal MA with lag 12 of order 1.
 ```{r}
 ggtsdisplay(residuals(auto_tract))
 ```
