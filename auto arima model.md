@@ -17,14 +17,18 @@ tr<-ts(tract[,2],start =2003,frequency = 12)
 plot(tr)
 ```
 ![time series plot](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/time%20series%20plot.png)
+
 ## TIME SERIES PATTERNS
-`Trend`
+1. Trend
 A trend exists when there is a long-term increase or decrease in the data. It does not have to be linear. Sometimes we will refer to a trend as “changing direction”, when it might go from an increasing trend to a decreasing trend.
-`Seasonal`
+
+2. Seasonal
 A seasonal pattern occurs when a time series is affected by seasonal factors such as the time of the year or the day of the week. Seasonality is always of a fixed and known frequency. 
-`Cyclic`
+
+3. Cyclic
 A cycle occurs when the data exhibit rises and falls that are not of a fixed frequency. These fluctuations are usually due to economic conditions, and are often related to the “business cycle”.
 In the above plot we see a clear visual of an increasing trend and seasonal effects however there is no cyclic component present.
+
 > Decomposing the time series help us in deep analysis of trend ,seasonality and cyclic component.
 ```{r}
 dtr<-stl(tr,s.window = "periodic")
@@ -42,17 +46,22 @@ Alternatively, a multiplicative decomposition would be written as:
 ```{r}
 plot(dtr)
 ```
+
 ![decomposed time series](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/decomposed%20series%20plot.png)
+
 ## unless our time series is stationary, we cannot build a time series model. In cases where the stationary criterion are violated, the first requisite becomes to stationarize the time series and then try stochastic models to predict this time series. There are multiple ways of bringing this stationarity. 
+
 ![image](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/stationarity%201.PNG)
 ![image](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/stationarity%202.PNG)
 ![image](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/stationarity%203.PNG)
+
 Transformations such as logarithms can help to stabilise the variance of a time series. Differencing can help stabilise the mean of a time series by removing changes in the level of a time series, and therefore eliminating (or reducing) trend and seasonality.
 As well as looking at the time plot of the data, the ACF plot is also useful for identifying non-stationary time series. For a stationary time series, the ACF will drop to zero relatively quickly, while the ACF of non-stationary data decreases slowly. Also, for non-stationary data, the value of r(1) is often large and positive.
 ```{r}
 acf(tr,lag(24))
 ```
 ![checking stationarity](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/acf%204%20check%20stationar.png)
+
 From the above plot we see that acf slowly drops to zero.
 One way to determine more objectively whether differencing is required is to use a unit root test. These are statistical hypothesis tests of stationarity that are designed for determining whether differencing is required,we use the Kwiatkowski-Phillips-Schmidt-Shin (KPSS) test.
 ##### In this test, the null hypothesis is that the data are stationary, and we look for evidence that the null hypothesis is false. 
@@ -60,6 +69,7 @@ One way to determine more objectively whether differencing is required is to use
 ur.kpss(tr)
 ```
 ![image](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/kpss%20test.PNG)
+
 The test statistic is much bigger than the 1% critical value, indicating that the null hypothesis is rejected. That is, the data are not stationary. We can difference the data, and apply the test again.
 This process of using a sequence of KPSS tests to determine the appropriate number of first differences is carried out by the function `ndiffs()`.A similar function for determining whether seasonal differencing is required is `nsdiffs()`.
 ```{r}
