@@ -44,6 +44,9 @@ plot(dtr)
 ```
 ![decomposed time series](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/decomposed%20series%20plot.png)
 ## unless our time series is stationary, we cannot build a time series model. In cases where the stationary criterion are violated, the first requisite becomes to stationarize the time series and then try stochastic models to predict this time series. There are multiple ways of bringing this stationarity. 
+![image](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/stationarity%201.PNG)
+![image](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/stationarity%202.PNG)
+![image](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/stationarity%203.PNG)
 Transformations such as logarithms can help to stabilise the variance of a time series. Differencing can help stabilise the mean of a time series by removing changes in the level of a time series, and therefore eliminating (or reducing) trend and seasonality.
 As well as looking at the time plot of the data, the ACF plot is also useful for identifying non-stationary time series. For a stationary time series, the ACF will drop to zero relatively quickly, while the ACF of non-stationary data decreases slowly. Also, for non-stationary data, the value of r(1) is often large and positive.
 ```{r}
@@ -56,7 +59,7 @@ One way to determine more objectively whether differencing is required is to use
 ```{r}
 ur.kpss(tr)
 ```
-![image](kpss test)
+![image](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/kpss%20test.PNG)
 The test statistic is much bigger than the 1% critical value, indicating that the null hypothesis is rejected. That is, the data are not stationary. We can difference the data, and apply the test again.
 This process of using a sequence of KPSS tests to determine the appropriate number of first differences is carried out by the function `ndiffs()`.A similar function for determining whether seasonal differencing is required is `nsdiffs()`.
 ```{r}
@@ -138,7 +141,7 @@ When fitting an ARIMA model to a set of (non-seasonal) time series data, the fol
 
 The auto.arima() function in R uses a variation of the Hyndman-Khandakar algorithm (Hyndman & Khandakar, 2008), which combines unit root tests, minimisation of the AICc and MLE to obtain an ARIMA model. The arguments to auto.arima() provide for many variations on the algorithm. 
 
-![put arimaflow image]
+![arimaflowimage](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/arimaflowchart.png)
 ```{r}
 auto_tract<-auto.arima(log10(tr),stepwise = FALSE,approximation = FALSE)
 summary(auto_tract)
