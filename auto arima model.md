@@ -51,7 +51,6 @@ acf(tr,lag(24))
 ```
 ![checking stationarity](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/acf%204%20check%20stationar.png)
 From the above plot we see that acf slowly drops to zero.
-
 One way to determine more objectively whether differencing is required is to use a unit root test. These are statistical hypothesis tests of stationarity that are designed for determining whether differencing is required,we use the Kwiatkowski-Phillips-Schmidt-Shin (KPSS) test.
 ##### In this test, the null hypothesis is that the data are stationary, and we look for evidence that the null hypothesis is false. 
 ```{r}
@@ -68,12 +67,13 @@ ndiffs(tr)
 nsdiffs(tr)
 ```
 [1] 1
-
+###### These functions suggest we should do both a seasonal difference and a first difference.
 A ggsubseries plot emphasises the seasonal patterns the data for each season are collected together in separate mini time plots.This is helpful in getting a more clear picture of the seasonality in the time series data.
 ```{r}
 ggsubseriesplot(st)+ylab("sales")+ggtitle("seasonal plot:")
 ```
 ![seasonal variation plot](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/seasonal%20plot.png)
+
 The horizontal lines indicate the means for each month. This form of plot enables the underlying seasonal pattern to be seen clearly, and also shows the changes in seasonality over time. It is especially useful in identifying changes within particular season
  As we saw our time series has many minor fluctuations ,so in order to get a clear visual of the time series we apply `moving average smoothing` 
 ```{r}
@@ -85,25 +85,60 @@ autoplot(tr, series="Data") +
                       breaks=c("Data","12-MA"))
 ```
 ![trend plot](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/plot%20for%20showing%20trend.png)
-
 Notice that the trend-cycle (in red) is smoother than the original data and captures the main movement of the time series without all of the minor fluctuations. The order of the moving average determines the smoothness of the trend-cycle estimate. In general, a larger order means a smoother curve. if the seasonal period is even and of order  m, we use a 2 × m-MA to estimate the trend-cycle. If the seasonal period is odd and of order m, we use a m-MA to estimate the trend-cycle.where m =2k+1. That is, the estimate of the trend-cycle at time t is obtained by averaging values of the time series within k periods of t.
 ```{r}
 boxplot(tr~cycle(tr))
 ```
 ![Boxplot for detecting outliers and seasonal variations](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/boxplot.png) 
-
 From the boxplot of the seasonal variations in time series we are able to analyse that there are no outliers present in the seasonal data and the mean values of sales of tractors is more in 7th and 8th month.
 
 ```{r}
 y<-diff(tr,lag=12)
 plot(y)
 ```
+By first differencing the series we get we have got constant mean.
 ![time series with constant mean](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/removing%20trend.png)
 ```{r}
 x<-log(tr)
 plot(x)
 ```
+THe log transformation stabilizes the variance of the time series.
 ![time series with constant variance](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/constant%20variance.png)
+
+# Modelling Procedure
+Since we have made our series stationary (independent of time) we can now build an appropriate model on it which can be used for predicting future tractor sales.
+`ARIMA` models are the two most widely used approaches to time series forecasting, and provide complementary approaches to the problem.
+ARIMA models aim to describe the autocorrelations in the data.
+Before working with ARIMA model first we need to understand what `AR`,`I`and `MA` mean .ARIMA is an acronym for AutoRegressive Integrated Moving Average (in this context, “integration” is the reverse of differencing).
+###### AR :
+We forecast the variable of interest using a linear combination of predictors. In an autoregression model, we forecast the variable of interest using a linear combination of past values of the variable. The term autoregression indicates that it is a regression of the variable against itself.Thus, an autoregressive model of order p can be written as:
+                     `y(t)=ϕ(1)y(t-1)+ϕ(2)y(t-2)...+ϕ(p)y(t-p)+ε(t)`
+Where ε(t) is the erroe term .We refer to this as an AR(p) model, an autoregressive model of order p.
+###### MA :
+Rather than using past values of the forecast variable in a regression, a moving average model uses past forecast errors in a regression-like model.
+                     `y(t)= ε(t)+θ(1)ε(t-1)+θ(2)ε(t-2)+...+θ(q)ε(t-q)`
+Where ε(t) is white noise.We refer to this as an MA(q) model, a moving average model of order q.Notice that each value of y(t) can be thought of as a weighted moving average of the past few forecast errors. 
+
+
+###### ARIMA 
+If we combine differencing with autoregression and a moving average model, we obtain a non-seasonal ARIMA model. ARIMA is an acronym for AutoRegressive Integrated Moving Average (in this context, “integration” is the reverse of differencing). The full model can be written as:
+                   `y′(t)=ϕ(1)y′(t-1)+..+ϕ(p)y′(t−p)+θ(1)ε(t−1)+...+θ(q)ε(t−q)+ε(t)`
+where y′(t) is the differenced series (it may have been differenced more than once). The “predictors” on the right hand side include both lagged values of y(t) and lagged errors. We call this an ARIMA(p,d,q) model, where p=order of the autoregressive part,q=order of the moving average part and d= degree of the first differencing involved.
+The same stationarity and invertibility conditions that are used for autoregressive and moving average models also apply to an ARIMA model.
+
+When fitting an ARIMA model to a set of (non-seasonal) time series data, the following procedure provides a useful general approach.
+
+* Plot the data and identify any unusual observations.
+* If necessary, transform the data (using a Box-Cox transformation) to stabilise the variance.
+* If the data are non-stationary, take first differences of the data until the data are stationary.
+* Examine the ACF/PACF: Is an ARIMA( p,d,0) or ARIMA( 0,d,q) model appropriate?
+* Try your chosen model(s), and use the AICc to search for a better model.
+* Check the residuals from your chosen model by plotting the ACF of the residuals, and doing a portmanteau test of the residuals. If they do not look like white noise, try a modified model.
+* Once the residuals look like white noise, calculate forecasts.
+
+The auto.arima() function in R uses a variation of the Hyndman-Khandakar algorithm (Hyndman & Khandakar, 2008), which combines unit root tests, minimisation of the AICc and MLE to obtain an ARIMA model. The arguments to auto.arima() provide for many variations on the algorithm. 
+
+![put arimaflow image]
 ```{r}
 auto_tract<-auto.arima(log10(tr),stepwise = FALSE,approximation = FALSE)
 summary(auto_tract)
@@ -124,6 +159,12 @@ res<-residuals(auto_tract)
 Box.test(res,lag = 24,type = "Ljung")
 ```
 ![image](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/box-ljung%20test.PNG)
+#### RESIDUALS
+Residuals are useful in checking whether a model has adequately captured the information in the data. A good forecasting method will yield residuals with the following properties:
+
+* The residuals are uncorrelated. If there are correlations between residuals, then there is information left in the residuals which should be used in computing forecasts.
+* The residuals have zero mean. If the residuals have a mean other than zero, then the forecasts are biased.
+Any forecasting method that does not satisfy these properties can be improved.From the above plots we can see that residuals follow a normal distribution that means the mean of the residuals is close to zero and there is no significant correlation in the residuals serie.The time plot of the residuals shows that the variation of the residuals stays much the same across the historical data. 
 # Predicting Tractor sales.
 ## Now based on the above built model we would predict sales for tractor for the next 3 years.
 ```{r}
@@ -133,6 +174,15 @@ Pred
 plot(tr,type='l',xlim=c(2004,2018),ylim=c(1,1600),xlab = 'Year',ylab = 'Tractor Sales')
 lines(10^(Pred$pred),col='red')
 lines(10^(Pred$pred+2*Pred$se),col='blue')
-lines(10^(Pred$pred-2*Pred$se),col='orange')
+lines(10^(Pred$pred-2*Pred$se),col='blue')
 ```
 ![predicted sales](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/predicted%20graph.png)
+
+The above is the output with forecasted values of tractor sales in red. Also, the range of expected error (i.e. 2 times standard deviation) is displayed with blue lines on either side of predicted red line.
+
+Assumptions while forecasting: Forecasts for a long period of 3 years is an ambitious task. The major assumption here is that the underlining patterns in the time series will continue to stay the same as predicted in the model. A short-term forecasting model, say a couple of business quarters or a year, is usually a good idea to forecast with reasonable accuracy. A long-term model like the one above needs to evaluated on a regular interval of time (say 6 months). The idea is to incorporate the new information available with the passage of time in the model.
+
+
+
+
+
