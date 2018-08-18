@@ -15,7 +15,7 @@ As the second column of our dataset contains the sales record .We convert those 
 tr<-ts(tract[,2],start =2003,frequency = 12)
 plot(tr)
 ```
-![image]
+![time series plot](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/time%20series%20plot.png)
 ```{r}
 dtr<-stl(tr,s.window = "periodic")
 dtr
