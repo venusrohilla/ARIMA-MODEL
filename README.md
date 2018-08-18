@@ -1,9 +1,8 @@
 # Time Series and Forecatsing .
  In my research to learn about time series analysis and forecasting, I came across five sites that helped me to understand time series modeling, as well as how to create a model.
- Statistical forecasting: notes on regression and time series analysis: This site provides a deep dive into time series analysis, explaining every aspect in detail. It really helped to me understand what I was doing:
  * [Notes on Time series and Forecasting](http://people.duke.edu/~rnau/411home.htm)
  * [Forecasting : Principles and Techniques](https://otexts.org/fpp2/)
- * [Time Series ANalysis using R](https://a-little-book-of-r-for-time-series.readthedocs.io/en/latest/)
+ * [Time Series Analysis using R](https://a-little-book-of-r-for-time-series.readthedocs.io/en/latest/)
  * [STAT 510 -An online course on Applied Time Series Analysis by PennState Eberly College Science](https://onlinecourses.science.psu.edu/stat510/)
  * [A Complete Tutorial on Time Series Modeling in R](https://www.analyticsvidhya.com/blog/2015/12/complete-tutorial-time-series-modeling/)
 
