@@ -78,12 +78,12 @@ ggtsdisplay(residuals(auto_tract))
 ```{r}
 checkresiduals(auto_tract)
 ```
-
+![image](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/normal%20plot.PNG)
 ```{r}
 res<-residuals(auto_tract)
 Box.test(res,lag = 24,type = "Ljung")
 ```
-
+![image](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/box-ljung%20test.PNG)
 # Predicting Tractor sales.
 ## Now based on the above built model we would predict sales for tractor for the next 3 years.
 ```{r}
