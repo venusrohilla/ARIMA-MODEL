@@ -24,6 +24,7 @@ dtr
 ```{r}
 plot(dtr)
 ```
+![decomposed time series](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/decomposed%20series%20plot.png)
 ```{r}
 ndiffs(tr)
 ```
@@ -35,6 +36,7 @@ nsdiffs(tr)
 ```{r}
 ggsubseriesplot(st)+ylab("sales")+ggtitle("seasonal plot:")
 ```
+![seasonal variation plot](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/seasonal%20plot.png)
 ```{r}
 autoplot(tr, series="Data") +
   autolayer(ma(tr, 12), series="12-MA") +
@@ -43,55 +45,47 @@ autoplot(tr, series="Data") +
   scale_colour_manual(values=c("Data"="grey","12-MA"="red"),
                       breaks=c("Data","12-MA"))
 ```
+![trend plot](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/plot%20for%20showing%20trend.png)
 ```{r}
 boxplot(tr~cycle(tr))
 ```
+![Boxplot for detecting outliers and seasonal variations](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/boxplot.png) 
 ```{r}
 acf(tr,lag(24))
 ```
+![checking stationarity](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/acf%204%20check%20stationar.png)
 ```{r}
 y<-diff(tr,lag=12)
 plot(y)
 ```
+![time series with constant mean](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/removing%20trend.png)
 ```{r}
 x<-log(tr)
 plot(x)
 ```
+![time series with constant variance](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/constant%20variance.png)
 ```{r}
 auto_tract<-auto.arima(log10(tr),stepwise = FALSE,approximation = FALSE)
 summary(auto_tract)
 ```
-Series: log10(tr) 
-ARIMA(0,1,1)(0,1,1)[12] 
-
-Coefficients:
-    ma1     sma1
--0.4047  -0.5529
-s.e.   0.0885   0.0734
-
-sigma^2 estimated as 0.0002571:  log likelihood=354.4
-AIC=-702.79   AICc=-702.6   BIC=-694.17
-
-Training set error measures:
-    ME       RMSE        MAE         MPE      MAPE
-Training set 0.0002410698 0.01517695 0.01135312 0.008335713 0.4462212
-MASE       ACF1
-Training set 0.2158968 0.01062604
+![summary of auto arima]
 ```{r}
 ggtsdisplay(residuals(auto_tract))
 ```
+![image](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/auto%20arima%20residual%20plot1.PNG)
+![image](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/acf%20lag%20plot2.PNG)
+![image](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/Capturauto%20arima%20pacf%20plot3.PNG)
 ```{r}
 checkresiduals(auto_tract)
 ```
+
 ```{r}
 res<-residuals(auto_tract)
 Box.test(res,lag = 24,type = "Ljung")
 ```
-Box-Ljung test
 
-data:  res
-X-squared = 26.219, df = 24, p-value = 0.3422
-#prediction
+# Predicting Tractor sales.
+## Now based on the above built model we would predict sales for tractor for the next 3 years.
 ```{r}
 par(mfrow = c(1,1))
 Pred= predict(auto_tract, n.ahead = 36)
@@ -101,3 +95,4 @@ lines(10^(Pred$pred),col='red')
 lines(10^(Pred$pred+2*Pred$se),col='blue')
 lines(10^(Pred$pred-2*Pred$se),col='orange')
 ```
+![predicted sales](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/predicted%20graph.png)
