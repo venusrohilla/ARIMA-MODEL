@@ -4,7 +4,7 @@
  * [Notes on Time series and Forecasting](http://people.duke.edu/~rnau/411home.htm)
  * [Forecasting : Principles and Techniques](https://otexts.org/fpp2/)
  * [Time Series ANalysis using R](https://a-little-book-of-r-for-time-series.readthedocs.io/en/latest/)
- * [STAT 510 -An online course on Applies Time Series Analysis by PennState Eberly College Science](https://onlinecourses.science.psu.edu/stat510/)
+ * [STAT 510 -An online course on Applied Time Series Analysis by PennState Eberly College Science](https://onlinecourses.science.psu.edu/stat510/)
  * [A Complete Tutorial on Time Series Modeling in R](https://www.analyticsvidhya.com/blog/2015/12/complete-tutorial-time-series-modeling/)
 
 ## INTRODUCTION
