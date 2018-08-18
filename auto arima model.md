@@ -19,13 +19,13 @@ plot(tr)
 ![time series plot](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/time%20series%20plot.png)
 
 ## TIME SERIES PATTERNS
-1. Trend
+1. Trend:
 A trend exists when there is a long-term increase or decrease in the data. It does not have to be linear. Sometimes we will refer to a trend as “changing direction”, when it might go from an increasing trend to a decreasing trend.
 
-2. Seasonal
+2. Seasonal:
 A seasonal pattern occurs when a time series is affected by seasonal factors such as the time of the year or the day of the week. Seasonality is always of a fixed and known frequency. 
 
-3. Cyclic
+3. Cyclic:
 A cycle occurs when the data exhibit rises and falls that are not of a fixed frequency. These fluctuations are usually due to economic conditions, and are often related to the “business cycle”.
 In the above plot we see a clear visual of an increasing trend and seasonal effects however there is no cyclic component present.
 
@@ -98,11 +98,13 @@ autoplot(tr, series="Data") +
                       breaks=c("Data","12-MA"))
 ```
 ![trend plot](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/plot%20for%20showing%20trend.png)
+
 Notice that the trend-cycle (in red) is smoother than the original data and captures the main movement of the time series without all of the minor fluctuations. The order of the moving average determines the smoothness of the trend-cycle estimate. In general, a larger order means a smoother curve. if the seasonal period is even and of order  m, we use a 2 × m-MA to estimate the trend-cycle. If the seasonal period is odd and of order m, we use a m-MA to estimate the trend-cycle.where m =2k+1. That is, the estimate of the trend-cycle at time t is obtained by averaging values of the time series within k periods of t.
 ```{r}
 boxplot(tr~cycle(tr))
 ```
 ![Boxplot for detecting outliers and seasonal variations](https://github.com/venusrohilla/Time-Series-and-Forecasting/blob/master/new%20folder/boxplot.png) 
+
 From the boxplot of the seasonal variations in time series we are able to analyse that there are no outliers present in the seasonal data and the mean values of sales of tractors is more in 7th and 8th month.
 
 ```{r}
